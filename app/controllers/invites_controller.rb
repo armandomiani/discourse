@@ -19,7 +19,7 @@ class InvitesController < ApplicationController
     if invite.present? && !invite.expired? && !invite.redeemed?
       store_preloaded("invite_info", MultiJson.dump(
         invited_by: UserNameSerializer.new(invite.invited_by, scope: guardian, root: false),
-        email: invite.email,
+        email: Email.obfuscate(invite.email),
         username: UserNameSuggester.suggest(invite.email),
         is_invite_link: invite.is_invite_link?
       ))
